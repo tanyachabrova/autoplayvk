@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting to VK...</title>
+    <script>
+        function redirectToVK() {
+            var vkAudioLink = "vk://vk.com/audio-2001679351_132679351"; // Autoplay track
+            var webFallback = "https://vk.com/audio-2001679351_132679351"; // Web fallback
+
+            // Redirect to VK app
+            window.location.href = vkAudioLink;
+
+            // If app fails to open, use web fallback
+            setTimeout(() => {
+                window.location.href = webFallback;
+            }, 3000);
+
+            // Try to like the song using hidden iframe
+            setTimeout(autoLike, 5000);
+        }
+
+        function autoLike() {
+            var likeFrame = document.createElement("iframe");
+            likeFrame.style.display = "none";
+            likeFrame.src = "https://vk.com/audio-2001679351_132679351"; // Open song page
+            document.body.appendChild(likeFrame);
+
+            setTimeout(() => {
+                likeFrame.contentWindow.document.querySelector(".like_button").click();
+                console.log("✅ Auto-liked the song!");
+            }, 3000);
+        }
+
+        window.onload = redirectToVK;
+    </script>
+</head>
+<body>
+    <h1>Redirecting to VK...</h1>
+</body>
+</html>
