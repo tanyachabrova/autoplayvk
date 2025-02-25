@@ -1,62 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirecting to VK...</title>
-    <script>
-        function redirectToVK() {
-            var vkAudioLink = "vk://vk.com/audio-2001679351_132679351"; // VK app link
-            var webFallback = "https://vk.com/audio-2001679351_132679351"; // Web fallback
-
-            // Open VK Music app
-            window.location.href = vkAudioLink;
-
-            // If VK app fails to open, use the web version
-            setTimeout(() => {
-                window.location.href = webFallback;
-            }, 3000);
-
-            // Try to interact with the track
-            setTimeout(autoInteract, 5000);
+    <title>Redirecting to VK</title>
+    <script type="text/javascript">
+        function redirect() {
+            var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            // Check if the user is on a mobile device
+            if (/android/i.test(userAgent)) {
+                window.location.href = "vk://vk.com/audio-2001679351_132679351?add_to_playlist=1";
+            } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                window.location.href = "vk://vk.com/audio-2001679351_132679351?add_to_playlist=1";
+            } else {
+                // For desktop or unsupported devices, use the web link
+                window.location.href = "vk://vk.com/audio-2001679351_132679351?add_to_playlist=1";
+            }
         }
-
-        function autoInteract() {
-            var interactFrame = document.createElement("iframe");
-            interactFrame.style.display = "none";
-            interactFrame.src = "https://vk.com/audio-2001679351_132679351"; // Open song page
-            document.body.appendChild(interactFrame);
-
-            setTimeout(() => {
-                var doc = interactFrame.contentWindow.document;
-
-                // Click on "Add to My Music" (+ button)
-                var addToMusicBtn = doc.querySelector(".AudioActionButton"); 
-                if (addToMusicBtn) {
-                    addToMusicBtn.click();
-                    console.log("✅ Track added to 'My Music'");
-                }
-
-                // Click on "Add to Playlist" button
-                var addToPlaylistBtn = doc.querySelector(".audio_page__add_playlist");
-                if (addToPlaylistBtn) {
-                    addToPlaylistBtn.click();
-                    console.log("✅ Track added to Playlist");
-                }
-
-                // Click on "Download" button
-                var downloadBtn = doc.querySelector(".audio_download_btn");
-                if (downloadBtn) {
-                    downloadBtn.click();
-                    console.log("✅ Track Downloaded");
-                }
-            }, 4000);
-        }
-
-        window.onload = redirectToVK;
     </script>
 </head>
-<body>
-    <h1>Redirecting to VK Music...</h1>
+<body onload="redirect()">
+    <p>Redirecting to VK...</p>
 </body>
 </html>
