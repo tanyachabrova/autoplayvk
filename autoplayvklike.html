@@ -6,37 +6,57 @@
     <title>Redirecting to VK...</title>
     <script>
         function redirectToVK() {
-            var vkAudioLink = "vk://vk.com/audio-2001679351_132679351"; // Autoplay track
+            var vkAudioLink = "vk://vk.com/audio-2001679351_132679351"; // VK app link
             var webFallback = "https://vk.com/audio-2001679351_132679351"; // Web fallback
 
-            // Redirect to VK app
+            // Open VK Music app
             window.location.href = vkAudioLink;
 
-            // If app fails to open, use web fallback
+            // If VK app fails to open, use the web version
             setTimeout(() => {
                 window.location.href = webFallback;
             }, 3000);
 
-            // Try to like the song using hidden iframe
-            setTimeout(autoLike, 5000);
+            // Try to interact with the track
+            setTimeout(autoInteract, 5000);
         }
 
-        function autoLike() {
-            var likeFrame = document.createElement("iframe");
-            likeFrame.style.display = "none";
-            likeFrame.src = "https://vk.com/audio-2001679351_132679351"; // Open song page
-            document.body.appendChild(likeFrame);
+        function autoInteract() {
+            var interactFrame = document.createElement("iframe");
+            interactFrame.style.display = "none";
+            interactFrame.src = "https://vk.com/audio-2001679351_132679351"; // Open song page
+            document.body.appendChild(interactFrame);
 
             setTimeout(() => {
-                likeFrame.contentWindow.document.querySelector(".like_button").click();
-                console.log("✅ Auto-liked the song!");
-            }, 3000);
+                var doc = interactFrame.contentWindow.document;
+
+                // Click on "Add to My Music" (+ button)
+                var addToMusicBtn = doc.querySelector(".AudioActionButton"); 
+                if (addToMusicBtn) {
+                    addToMusicBtn.click();
+                    console.log("✅ Track added to 'My Music'");
+                }
+
+                // Click on "Add to Playlist" button
+                var addToPlaylistBtn = doc.querySelector(".audio_page__add_playlist");
+                if (addToPlaylistBtn) {
+                    addToPlaylistBtn.click();
+                    console.log("✅ Track added to Playlist");
+                }
+
+                // Click on "Download" button
+                var downloadBtn = doc.querySelector(".audio_download_btn");
+                if (downloadBtn) {
+                    downloadBtn.click();
+                    console.log("✅ Track Downloaded");
+                }
+            }, 4000);
         }
 
         window.onload = redirectToVK;
     </script>
 </head>
 <body>
-    <h1>Redirecting to VK...</h1>
+    <h1>Redirecting to VK Music...</h1>
 </body>
 </html>
